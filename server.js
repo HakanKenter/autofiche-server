@@ -42,7 +42,7 @@ app.all('/api/shopify/*', async (req, res) => {
 app.post('/api/claude', async (req, res) => {
   try {
     if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'ANTHROPIC_API_KEY manquante' });
-    const body = { ...req.body, model: 'claude-haiku-4-5-20251001', max_tokens: 2000 };
+    const body = { ...req.body, model: 'claude-sonnet-4-6', max_tokens: 4000 };
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
