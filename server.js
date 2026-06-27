@@ -59,6 +59,22 @@ app.post('/api/claude', async (req, res) => {
   }
 });
 
+// ── GPT-4o PROXY ─────────────────────────────────────────────────────────
+app.post('/api/gpt', async (req, res) => {
+  try {
+    if (!OPENAI_KEY) return res.status(500).json({ error: 'OPENAI_API_KEY manquante' });
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+      body: JSON.stringify(req.body)
+    });
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ── ANALYZE IMAGE (détection texte anglais uniquement) ───────────
 app.post('/api/analyze-image', async (req, res) => {
   try {
